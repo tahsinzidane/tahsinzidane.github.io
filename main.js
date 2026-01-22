@@ -198,8 +198,34 @@ if (localStorage.getItem("theme") === "dark") {
 }
 
 
-// ======= click to full screen the image=======
-const meIcon = document.getElementById("meIcon")
-meIcon.addEventListener("click",()=>{
-  meIcon.requestFullscreen()
-})
+// ======= click to open lightbox =======
+const meIcon = document.getElementById("meIcon");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const closeLightbox = document.querySelector(".close-lightbox");
+
+meIcon.addEventListener("click", () => {
+  lightbox.style.display = "flex";
+  lightboxImg.src = meIcon.src;
+  // Force reflow
+  lightbox.offsetWidth;
+  lightbox.classList.add("show");
+});
+
+const hideLightbox = () => {
+  lightbox.classList.remove("show");
+  setTimeout(() => {
+    if (!lightbox.classList.contains("show")) {
+      lightbox.style.display = "none";
+    }
+  }, 300); // Wait for transition
+};
+
+closeLightbox.addEventListener("click", hideLightbox);
+
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) {
+    hideLightbox();
+  }
+});
+
